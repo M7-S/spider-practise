@@ -17,6 +17,7 @@ import requests
 import json
 
 
+
 class Douban_spider:
     def __init__(self):
         self.start_url = "https://m.douban.com/rexxar/api/v2/subject_collection/tv_american/items?os=android&for_mobile=1&callback=jsonp2&start={}&count=18&loc_id=108288&_=0"
@@ -26,8 +27,11 @@ class Douban_spider:
 
     def parse_url(self, url):  # 发送请求，获取响应
         print(url)
-        response = requests.get(url)
-        return response.content.decode()
+        response = requests.get(url, headers=self.headers)
+        #response = response.content.decode()
+        response = response.content.decode().replace(";jsonp2(", "")[:-2]
+        print(response)
+        return response
 
     def get_content_list(self, json_str):  # 提取数据
         dict_ret = json.loads(json_str)
